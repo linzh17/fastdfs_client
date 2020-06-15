@@ -6,7 +6,7 @@ from API import *
 app =  Flask(__name__)
 api = Api(app)
 
-api.add_resource(File,'/api/fdfsfile')
+api.add_resource(File,'/fdfsfile/api')
 
 if __name__ =='__main__':
     app.run()

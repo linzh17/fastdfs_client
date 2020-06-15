@@ -22,7 +22,7 @@ class File(Resource):
 
           file = args['file']
           #file.save(os.path.join('/home/lin/Desktop/项目练习/fastdfs_client/fastdfsclient/API/', file.filename))
-          client_conf = get_tracker_conf(r'/home/lin/Desktop/项目练习/fastdfs_client/fastdfsclient/API/client.conf')
+          client_conf = get_tracker_conf(r'/root/fastdfs_client/API/client.conf')
           client = Fdfs_client(client_conf)
           #print(file.read())
           #获取文件后缀
