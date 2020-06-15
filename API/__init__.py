@@ -5,8 +5,8 @@ from flask import jsonify
 import os
 from fdfs_client.client import *
 from .error_code import *
+from util import Generate_UUID, sendMsg, Md5Content
 
-# 将字典中的byte 类型 转化为str
 def convert(data):
     if isinstance(data, bytes):  return data.decode('ascii')
     if isinstance(data, dict):   return dict(map(convert, data.items()))
@@ -27,10 +27,22 @@ class File(Resource):
           #print(file.read())
           #获取文件后缀
           ext_name = os.path.splitext(file.filename)[-1][1:]
-          ret = client.upload_by_buffer(file.read(), file_ext_name = ext_name)
+          FileContent = file.read()
+          ret = client.upload_by_buffer(FileContent, file_ext_name = ext_name)
+          ret = convert(ret)
+
+          Url = "http://47.113.225.179/scnu/" + ret["Remote file_id"]
+          UUID = Generate_UUID(ret)
+          FileMd5 = Md5Content(FileContent)
+          Size = ret["Uploaded size"]
+          StorageIP = ret["Storage IP"]
+          RemoteFileId = ret["Remote file_id"]
+          GroupName = ret["Group name"]
+
+          result = sendMsg(UUID, Url, FileMd5, Size, StorageIP, RemoteFileId, GroupName)
 
           if ret["Status"] == "Upload successed.":
-              ret = jsonify(convert(ret))
+              ret = jsonify(result)
               ret.status_code = 201
               return ret
           else: 
