@@ -14,7 +14,7 @@ def Md5Content(content):
 def Generate_UUID(Ret):
     restcontent = json.dumps(Ret)
     m = hashlib.md5()
-    m.update(restcontent)
+    m.update(restcontent.encode('utf-8'))
     return m.hexdigest()
 
 
